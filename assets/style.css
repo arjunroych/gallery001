@@ -1,0 +1,189 @@
+:root {
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* D4 — dark mode: dark gray bg, soft light-gray text (not pure black/white) */
+  --color-bg: #1b1b1b;
+  --color-text: #d6d6d6;
+  --color-text-dim: #999999;
+  --color-accent: #3f6b5c; /* pine green, unchanged from v1 */
+
+  /* D5 — tighter outer margin, bigger grid rows */
+  --page-margin: 14px;
+  --row-height: 320px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+}
+
+/* ---------- Album header (F6.1 / F6.2 / F6.3) ---------- */
+
+.album-header {
+  padding: 40px var(--page-margin) 24px;
+  max-width: 900px;
+}
+
+.album-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(28px, 5vw, 44px);
+  line-height: 1.1;
+  margin: 0 0 10px;
+  color: var(--color-text);
+}
+
+.album-date {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-text-dim);
+  margin: 0 0 14px;
+  letter-spacing: 0.02em;
+}
+
+.album-description {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--color-text);
+  margin: 0;
+  max-width: 640px;
+}
+
+/* ---------- Justified photo grid (D5 / F3.1) ---------- */
+
+.gallery-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 0 var(--page-margin) var(--page-margin);
+}
+
+.gallery-grid img {
+  height: var(--row-height);
+  flex-grow: 1;
+  object-fit: cover;
+  cursor: zoom-in;
+  background: #262626;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --row-height: 200px;
+    --page-margin: 12px;
+  }
+}
+
+/* ---------- Lightbox ---------- */
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 10, 0.96);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  touch-action: none;
+}
+
+.lightbox.open {
+  display: flex;
+}
+
+.lightbox-stage {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  touch-action: none;
+}
+
+.lightbox-stage img {
+  max-width: 100%;
+  max-height: 100%;
+  transition: transform 0.15s ease-out;
+  user-select: none;
+  -webkit-user-drag: none;
+  touch-action: none;
+}
+
+/* Disable the transition while actively dragging/pinching so panning
+   feels immediate rather than lagging behind the finger (F3.6/F3.7). */
+.lightbox-stage img.panning {
+  transition: none;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: var(--color-text);
+  font-size: 32px;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 1002;
+  opacity: 0.7;
+}
+
+.lightbox-close:hover {
+  opacity: 1;
+}
+
+/* D6 — desktop arrows: bigger, translucent, hidden until mouse moves,
+   fade out again when idle. Hidden entirely on mobile (F3.4/F3.7 —
+   mobile navigation is swipe-only). */
+.lightbox-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--color-text);
+  font-size: 30px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.35s ease, background 0.2s ease;
+  z-index: 1001;
+}
+
+.lightbox-arrow:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.lightbox.arrows-visible .lightbox-arrow {
+  opacity: 1;
+}
+
+.lightbox-prev {
+  left: 24px;
+}
+
+.lightbox-next {
+  right: 24px;
+}
+
+@media (max-width: 768px) {
+  .lightbox-arrow {
+    display: none;
+  }
+}
