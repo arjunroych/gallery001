@@ -11,6 +11,11 @@
   /* D5 — tighter outer margin, bigger grid rows */
   --page-margin: 14px;
   --row-height: 320px;
+
+  /* D8 — article-style left/right gutter for the header, decoupled
+     from the grid's tighter --page-margin so the grid stays flush
+     while the header reads like an article lede. */
+  --header-padding-x: 64px;
 }
 
 * {
@@ -28,7 +33,7 @@ html, body {
 /* ---------- Album header (F6.1 / F6.2 / F6.3) ---------- */
 
 .album-header {
-  padding: 40px var(--page-margin) 24px;
+  padding: 40px var(--header-padding-x) 24px;
   max-width: 900px;
 }
 
@@ -80,6 +85,7 @@ html, body {
   :root {
     --row-height: 200px;
     --page-margin: 12px;
+    --header-padding-x: 12px;
   }
 }
 
